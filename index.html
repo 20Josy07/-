@@ -603,19 +603,20 @@
     document.getElementById('celebration').classList.add('show');
     launchHearts();
 
-    // Notifica a Josy por email vía Formspree
+    const respuesta = escapes === 0
+      ? '💕 Dijo que SÍ de una sola vez, sin dudarlo.'
+      : `😂 Intentó presionar "No" ${escapes} ${escapes === 1 ? 'vez' : 'veces'} antes de decir que sí.`;
+
     try {
       await fetch('https://formspree.io/f/xzdobylj', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
-          mensaje: '💕 Keren presionó que SÍ',
+          respuesta,
           hora: new Date().toLocaleString('es', { dateStyle: 'full', timeStyle: 'short' })
         })
       });
-    } catch (e) {
-      // Si falla la notificación, la celebración igual se muestra
-    }
+    } catch (e) {}
   }
 
   function launchHearts() {
