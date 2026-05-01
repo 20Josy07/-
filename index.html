@@ -599,9 +599,23 @@
   noBtn.addEventListener('mouseenter', runAway);
 
   // === CELEBRATE ===
-  function celebrate() {
+  async function celebrate() {
     document.getElementById('celebration').classList.add('show');
     launchHearts();
+
+    // Notifica a Josy por email vía Formspree
+    try {
+      await fetch('https://formspree.io/f/xzdobylj', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          mensaje: '💕 Keren presionó que SÍ',
+          hora: new Date().toLocaleString('es', { dateStyle: 'full', timeStyle: 'short' })
+        })
+      });
+    } catch (e) {
+      // Si falla la notificación, la celebración igual se muestra
+    }
   }
 
   function launchHearts() {
